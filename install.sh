@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Script para instalar o filtro de cópias apropriado (ZPL ou EPL2) para uma
-# impressora CUPS, detectando a linguagem automaticamente, garantindo que
-# a configuração persista a atualizações e reiniciando o serviço no final.
+# impressora CUPS, detectando a linguagem, garantindo a persistência da
+# configuração, definindo cópias manuais e reiniciando o serviço no final.
 
 # --- VERIFICAÇÕES INICIAIS ---
 
@@ -74,22 +74,33 @@ MODIFIED_PPD_DEST_PATH="${MODEL_DIR}/${MODIFIED_PPD_NAME}"
 
 echo "Iniciando a instalação do filtro para a impressora: $PRINTER_NAME"
 
-# 1) Copiar o filtro apropriado para a pasta do CUPS e dar permissão de execução
+# 1) Copiar o filtro para a pasta do CUPS e dar permissão de execução
 echo "1/5: Copiando $FILTER_SCRIPT_NAME para /usr/lib/cups/filter/..."
 cp "$FILTER_SOURCE_PATH" "$FILTER_DEST_PATH"
 chmod +x "$FILTER_DEST_PATH"
 echo "Filtro copiado e com permissão de execução."
 echo ""
 
-# 2) Modificar a linha cupsFilter no PPD
+# 2) Modificar o arquivo PPD
 echo "2/5: Modificando o arquivo PPD em $PPD_FILE_PATH..."
 # Cria um backup do PPD original por segurança
 cp "$PPD_FILE_PATH" "${PPD_FILE_PATH}.bak"
 echo "Backup do PPD original criado em ${PPD_FILE_PATH}.bak"
 
-# Usa "sed" com aspas duplas para permitir a expansão da variável $FILTER_SCRIPT_NAME
+# a) Modifica a linha cupsFilter
 sed -i "s/^\*cupsFilter:.*/\*cupsFilter: \"application\/vnd.cups-raster 50 $FILTER_SCRIPT_NAME\"/" "$PPD_FILE_PATH"
 echo "Linha cupsFilter modificada com sucesso."
+
+# b) Garante que *cupsManualCopies esteja definido como True
+if grep -q "^\*cupsManualCopies:" "$PPD_FILE_PATH"; then
+    # Se a linha existe, substitui para garantir que seja 'True'
+    sed -i 's/^\*cupsManualCopies:.*/\*cupsManualCopies: True/' "$PPD_FILE_PATH"
+    echo "Linha *cupsManualCopies atualizada para True."
+else
+    # Se a linha não existe, adiciona após a linha *cupsFilter
+    sed -i "/^\*cupsFilter:.*/a \*cupsManualCopies: True" "$PPD_FILE_PATH"
+    echo "Linha *cupsManualCopies: True adicionada ao PPD."
+fi
 echo ""
 
 # 3) Copiar o PPD modificado para a pasta de modelos do CUPS
