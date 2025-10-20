@@ -1,5 +1,5 @@
 # Label Copy Filter
-This script corrects issues with copy printing on ZPL and EPL2 label printers installed in Linux via CUPS. It speeds up the printing process and shows the progress of the copies, it can have the same performance of Windows.
+This script corrects issues with copy printing on ZPL and EPL2 label printers installed in Linux via CUPS. It speeds up the printing process and shows the progress of the copies, it can have the same performance of Windows. It works when printing with commands and in applications like Chrome.
 
 ## Printer Progress
 Printers that have a display will show "1 of 1" regardless of the number of copies. The script fix this showing the progress for each copy. For example: 2 of 4, 3 of 4...
