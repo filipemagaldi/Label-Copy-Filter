@@ -2,7 +2,7 @@
 This script corrects issues with copy printing on ZPL and EPL2 label printers installed in Linux via CUPS. It speeds up the printing process and shows the progress of the copies, it can have the same performance of Windows.
 
 ## Printer Progress
-Printers that have a display will display "1 of 1" regardless of the number of copies.
+Printers that have a display will show "1 of 1" regardless of the number of copies. The script fix this showing the progress for each copy. For example: 2 of 4, 3 of 4...
 
 _Before installing the script:_
 
@@ -13,7 +13,7 @@ _After installing the script:_
 ![S4M printer showing the progress 1 of 4 after installing the script.](https://serradomar.tec.br/imagens/label-copy-filter/fast-s4m.gif)
 
 ## Avoiding pausing on each label
-Problem that occurs at certain speeds or on older printers.
+On Linux, older printers and others with higher speeds selected pause for each label. The script fixes this by letting the printers print without pausing.
 
 _Before installing the script:_
 
