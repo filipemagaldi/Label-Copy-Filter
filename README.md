@@ -17,7 +17,7 @@ On Linux, older printers and others with higher speeds selected pause for each l
 
 _Before installing the script:_
 
-![TLP3842 printer pausing printing each label before installing the script.](https://serradomar.tec.br/imagens/label-copy-filter/cslow-tlp3842.gif)
+![TLP3842 printer pausing printing each label before installing the script.](https://serradomar.tec.br/imagens/label-copy-filter/slow-tlp3842.gif)
 
 _After installing the script:_
 
